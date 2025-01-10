@@ -11,8 +11,25 @@ export class GifsService {
   get tagsHistory(){
     return [...this._tagsHistory];
   }
-  public searchTag(tag:string):void{
+  private organizeHistory(tag:string):void{
+    //para que la busqueda sea entre minusculas por el sensitive
+    tag=tag.toLowerCase();
+
+    if(this._tagsHistory.includes(tag)){
+      this._tagsHistory=this._tagsHistory.filter( (oldTag) => oldTag !== tag)
+    }
     this._tagsHistory.unshift(tag);
+    this._tagsHistory=this.tagsHistory.splice(0,10);
+
+
+  }
+
+  public searchTag(tag:string):void{
+    if (tag.length===0)return;
+    this.organizeHistory(tag)
+
     console.log(this.tagsHistory)
+
+
   }
 }
