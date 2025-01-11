@@ -1,16 +1,30 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Gif, SerchResponse } from '../interfaces/gifs.interfaces';
+
+
+
+//como no se cambiará la apikey se puede crear fuera al ser constante
+
+//const GIPHY_API_KEY ='qHXbD5Gg5fTj7kACaOrKNHcz8ik7ZuiQ'
 
 @Injectable({
   providedIn: 'root'
 })
 export class GifsService {
 
-  private _tagsHistory:string[]=[]
+  public gifList: Gif[]=[];
 
-  constructor() { }
+  private _tagsHistory: string[]=[]
+  private apikey:       string  ='qHXbD5Gg5fTj7kACaOrKNHcz8ik7ZuiQ';
+  private serviceUrl:   string  = 'https://api.giphy.com/v1/gifs'
+
+
+  constructor(private http: HttpClient) { }
   get tagsHistory(){
     return [...this._tagsHistory];
   }
+
   private organizeHistory(tag:string):void{
     //para que la busqueda sea entre minusculas por el sensitive
     tag=tag.toLowerCase();
@@ -24,12 +38,24 @@ export class GifsService {
 
   }
 
-  public searchTag(tag:string):void{
+ searchTag(tag:string):void{
     if (tag.length===0)return;
-    this.organizeHistory(tag)
+    this.organizeHistory(tag);
 
-    console.log(this.tagsHistory)
+    const params = new HttpParams()
+    .set('api_key',this.apikey)
+    .set('limit',      10     )
+    .set('q',      tag)
 
+    this.http.get<SerchResponse>(`${this.serviceUrl}/search`,{params})
+      .subscribe( resp =>{
+       this.gifList=resp.data;
+       console.log({gifs: this.gifList})
+      })
+/*
+    fetch('https://api.giphy.com/v1/gifs/search?api_key=qHXbD5Gg5fTj7kACaOrKNHcz8ik7ZuiQ&q=valorant&limit=10')
+        .then( resp => resp.json())
+        .then( data => console.log(data)) */
 
   }
 }

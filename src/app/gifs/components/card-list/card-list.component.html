@@ -1,11 +1,13 @@
 <div class="row">
-  <div class="col-md-3 col-sm-6">
+  <div *ngFor="let gif of gifs" class="col-md-3 col-sm-6">
 
-    <div class="card" >
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <div class="card mb-2 text-center bg-dark" >
+
+      <img [src]="gif.images.downsized_medium.url" class="card-img-top" [alt]="gif.title">
+
+      <div class="card-body text-white">
+        <h5 class="card-title"></h5>
+        <p class="card-text text-body-white ">{{gif.title}}</p>
         <a href="#" class="btn btn-primary">Go somewhere</a>
       </div>
     </div>
