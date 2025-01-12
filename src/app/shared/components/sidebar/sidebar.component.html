@@ -6,7 +6,10 @@
       <hr class="text-white">
 
 
-    <button *ngFor="let tag of tags" class="list-group-item list-group-item-action">
+    <button
+     *ngFor="let tag of tags"
+     (click)="searchTag(tag)"
+      class="list-group-item list-group-item-action">
       {{tag | titlecase}}
     </button>
 

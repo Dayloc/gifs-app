@@ -1,5 +1,6 @@
 import { Component,Input } from '@angular/core';
 import { Gif } from '../../interfaces/gifs.interfaces';
+import { GifsService } from '../../services/gifs.service';
 
 
 @Component({
@@ -11,7 +12,10 @@ import { Gif } from '../../interfaces/gifs.interfaces';
 })
 export class CardListComponent {
 
+constructor(private gifsService:GifsService){}
+
   @Input()
   public gifs: Gif[]=[]
+
 
 }
